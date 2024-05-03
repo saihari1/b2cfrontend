@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-
 const UserLoginForm = () => {
-  let navigate = useNavigate();
 
   const [loginRequest, setLoginRequest] = useState({
     emailId: "",
@@ -126,7 +123,7 @@ const UserLoginForm = () => {
                 height: "38px",
               }}
             >
-              <h4 className="card-title">User Login</h4>
+              <h4 className="card-title">Login</h4>
             </div>
             <div className="card-body mt-3">
               <form>

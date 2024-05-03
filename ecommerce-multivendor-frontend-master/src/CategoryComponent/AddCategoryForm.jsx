@@ -87,9 +87,9 @@ const AddCategoryForm = () => {
 
   return (
     <div>
-      <div class="mt-2 d-flex aligns-items-center justify-content-center">
+      <div className="mt-2 d-flex aligns-items-center justify-content-center">
         <div
-          class="form-card border-color custom-bg"
+          className="form-card border-color custom-bg"
           style={{ width: "25rem" }}
         >
           <div className="container-fluid">
@@ -100,17 +100,17 @@ const AddCategoryForm = () => {
                 height: "38px",
               }}
             >
-              <h5 class="card-title">Add Category</h5>
+              <h5 className="card-title">Add Category</h5>
             </div>
-            <div class="card-body text-color mt-3">
+            <div className="card-body text-color mt-3">
               <form>
-                <div class="mb-3">
-                  <label for="title" class="form-label">
+                <div className="mb-3">
+                  <label htmlFor="title" className="form-label">
                     <b>Category Title</b>
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="title"
                     placeholder="enter title.."
                     onChange={(e) => {
@@ -119,12 +119,12 @@ const AddCategoryForm = () => {
                     value={name}
                   />
                 </div>
-                <div class="mb-3">
-                  <label for="description" class="form-label">
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">
                     <b>Category Description</b>
                   </label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="description"
                     rows="3"
                     placeholder="enter description.."
@@ -139,7 +139,7 @@ const AddCategoryForm = () => {
                   <button
                     type="submit"
                     onClick={saveCategory}
-                    class="btn bg-color custom-bg-text"
+                    className="btn bg-color custom-bg-text"
                   >
                     Add Category
                   </button>

@@ -5,40 +5,43 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ViewSellerProducts = () => {
+
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
-
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
-
   const [allProducts, setAllProducts] = useState([]);
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      const allProducts = await retrieveAllProducts();
-      if (allProducts) {
-        setAllProducts(allProducts.products);
-      }
-    };
-
-    getAllProducts();
-  }, []);
+    if (seller) { // Check if seller object exists
+      const getAllProducts = async () => {
+        const allProducts = await retrieveAllProducts();
+        if (allProducts) {
+          setAllProducts(allProducts.products);
+        }
+      };
+      getAllProducts();
+    }
+    // eslint-disable-next-line 
+  }, [seller]); 
 
   const retrieveAllProducts = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/product/fetch/seller-wise?sellerId=" +
+    if (seller) { // Check if seller object exists
+      const response = await axios.get(
+        "http://localhost:8080/api/product/fetch/seller-wise?sellerId=" +
         seller.id
-    );
-    console.log(response.data);
-    return response.data;
+      );
+      return response.data;
+    }
+    return null; // Return null if seller is not available
   };
+
 
   const deleteProduct = (productId, e) => {
     fetch(
       "http://localhost:8080/api/product/delete?productId=" +
-        productId +
-        "&sellerId=" +
-        seller.id,
+      productId +
+      "&sellerId=" +
+      seller.id,
       {
         method: "DELETE",
         headers: {
@@ -97,9 +100,17 @@ const ViewSellerProducts = () => {
       });
   };
 
+  // const updateProduct = (product) => {
+  //   navigate("/seller/product/update", { state: product });
+  // };
   const updateProduct = (product) => {
     navigate("/seller/product/update", { state: product });
   };
+
+  if (!seller) {
+    return <div>Loading...</div>; // Render a loading message or spinner if seller object is not available
+  }
+
 
   return (
     <div className="mt-3">
@@ -161,8 +172,9 @@ const ViewSellerProducts = () => {
                         <b>{product.description}</b>
                       </td>
                       <td>
-                        <b>{product.category.name}</b>
+                        <b>{product.category ? product.category.name : "NoCategory"}</b>
                       </td>
+
                       <td>
                         <b>{product.quantity}</b>
                       </td>

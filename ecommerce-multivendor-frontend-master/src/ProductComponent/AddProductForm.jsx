@@ -143,9 +143,10 @@ const AddProductForm = () => {
 
   return (
     <div>
-      <div class="mt-2 d-flex aligns-items-center justify-content-center">
+      <ToastContainer />
+      <div className="mt-2 d-flex aligns-items-center justify-content-center">
         <div
-          class="card form-card custom-bg shadow-lg"
+          className="card form-card custom-bg shadow-lg"
           style={{ width: "45rem" }}
         >
           <div className="container-fluid">
@@ -156,17 +157,17 @@ const AddProductForm = () => {
                 height: "45px",
               }}
             >
-              <h5 class="card-title">Add Product</h5>
+              <h5 className="card-title">Add Product</h5>
             </div>
-            <div class="card-body text-color">
+            <div className="card-body text-color">
               <form className="row g-3">
                 <div className="col-md-6 mb-3">
-                  <label for="title" class="form-label">
+                  <label htmlFor="title" className="form-label">
                     <b>Product Title</b>
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="title"
                     name="name"
                     onChange={handleInput}
@@ -174,11 +175,11 @@ const AddProductForm = () => {
                   />
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label for="description" class="form-label">
+                  <label htmlFor="description" className="form-label">
                     <b>Product Description</b>
                   </label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="description"
                     name="description"
                     rows="3"
@@ -201,19 +202,21 @@ const AddProductForm = () => {
 
                     {categories.map((category) => {
                       return (
-                        <option value={category.id}> {category.name} </option>
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
                       );
                     })}
                   </select>
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label for="quantity" class="form-label">
+                  <label htmlFor="quantity" className="form-label">
                     <b>Product Quantity</b>
                   </label>
                   <input
                     type="number"
-                    class="form-control"
+                    className="form-control"
                     id="quantity"
                     name="quantity"
                     onChange={handleInput}
@@ -222,12 +225,12 @@ const AddProductForm = () => {
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label for="price" class="form-label">
+                  <label htmlFor="price" className="form-label">
                     <b>Product Price</b>
                   </label>
                   <input
                     type="number"
-                    class="form-control"
+                    className="form-control"
                     id="price"
                     name="price"
                     onChange={handleInput}
@@ -236,11 +239,11 @@ const AddProductForm = () => {
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label for="formFile" class="form-label">
+                  <label htmlFor="formFile" className="form-label">
                     <b> Select 1st Image</b>
                   </label>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="file"
                     id="formFile"
                     name="image1"
@@ -251,11 +254,11 @@ const AddProductForm = () => {
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label for="formFile" class="form-label">
+                  <label htmlFor="formFile" className="form-label">
                     <b> Select 2nd Image</b>
                   </label>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="file"
                     id="formFile"
                     name="image2"
@@ -266,11 +269,11 @@ const AddProductForm = () => {
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label for="formFile" class="form-label">
+                  <label htmlFor="formFile" className="form-label">
                     <b> Select 3rd Image</b>
                   </label>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="file"
                     id="formFile"
                     name="image3"
@@ -283,7 +286,7 @@ const AddProductForm = () => {
                 <div className="d-flex aligns-items-center justify-content-center mb-2">
                   <button
                     type="submit"
-                    class="btn bg-color custom-bg-text"
+                    className="btn bg-color custom-bg-text"
                     onClick={saveProduct}
                   >
                     Add Product

@@ -3,7 +3,7 @@ import Header from "./NavbarComponent/Header";
 import AdminRegisterForm from "./UserComponent/AdminRegisterForm";
 import UserLoginForm from "./UserComponent/UserLoginForm";
 import UserRegister from "./UserComponent/UserRegister";
-import AboutUs from "./PageComponent/AboutUs";
+// import AboutUs from "./PageComponent/AboutUs";
 import ContactUs from "./PageComponent/ContactUs";
 import HomePage from "./PageComponent/HomePage";
 import AddCategoryForm from "./CategoryComponent/AddCategoryForm";
@@ -40,7 +40,7 @@ function App() {
         <Route path="/user/customer/register" element={<UserRegister />} />
         <Route path="/user/seller/register" element={<UserRegister />} />
         <Route path="/seller/delivery/register" element={<UserRegister />} />
-        <Route path="/aboutus" element={<AboutUs />} />
+        {/* <Route path="/aboutus" element={<AboutUs />} /> */}
         <Route path="/contactus" element={<ContactUs />} />
         <Route
           path="/product/category/:categoryId/:categoryName"

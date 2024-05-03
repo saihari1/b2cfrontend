@@ -19,16 +19,17 @@ const UserRegister = () => {
     pincode: "",
     role: "",
   });
-
+    
   useEffect(() => {
-    if (document.URL.indexOf("customer") != -1) {
-      user.role = "Customer";
-    } else if (document.URL.indexOf("delivery") != -1) {
-      user.role = "Delivery";
-    } else if (document.URL.indexOf("seller") != -1) {
-      user.role = "Seller";
+    if (document.URL.indexOf("customer") !== -1) {
+      setUser({ ...user, role: "Customer" });
+    } else if (document.URL.indexOf("delivery") !== -1) {
+      setUser({ ...user, role: "Delivery" });
+    } else if (document.URL.indexOf("seller") !== -1) {
+      setUser({ ...user, role: "Seller" });
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [user]);
 
   const handleUserInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -36,8 +37,6 @@ const UserRegister = () => {
 
   const saveUser = (e) => {
     e.preventDefault();
-
-    let jwtToken;
 
     if (user.role === "Delivery") {
       user.sellerId = seller.id;
@@ -135,7 +134,7 @@ const UserRegister = () => {
                 height: "45px",
               }}
             >
-              <h5 className="card-title">Register Here!!!</h5>
+              <h5 className="card-title">Register Here!!!{user.role}</h5>
             </div>
             <div className="card-body mt-3">
               <form className="row g-3" onSubmit={saveUser}>
@@ -150,7 +149,8 @@ const UserRegister = () => {
                     name="firstName"
                     onChange={handleUserInput}
                     value={user.firstName}
-                  />
+                    required
+                    />
                 </div>
 
                 <div className="col-md-6 mb-3 text-color">
@@ -164,6 +164,7 @@ const UserRegister = () => {
                     name="lastName"
                     onChange={handleUserInput}
                     value={user.lastName}
+                    required
                   />
                 </div>
 
@@ -178,6 +179,7 @@ const UserRegister = () => {
                     name="emailId"
                     onChange={handleUserInput}
                     value={user.emailId}
+                    required
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -191,7 +193,8 @@ const UserRegister = () => {
                     name="password"
                     onChange={handleUserInput}
                     value={user.password}
-                  />
+                    required
+                    />
                 </div>
 
                 <div className="col-md-6 mb-3">
@@ -205,6 +208,7 @@ const UserRegister = () => {
                     name="phoneNo"
                     onChange={handleUserInput}
                     value={user.phoneNo}
+                    required
                   />
                 </div>
 
@@ -219,6 +223,7 @@ const UserRegister = () => {
                     rows="3"
                     onChange={handleUserInput}
                     value={user.street}
+                    required
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -232,6 +237,7 @@ const UserRegister = () => {
                     name="city"
                     onChange={handleUserInput}
                     value={user.city}
+                    required
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -245,6 +251,7 @@ const UserRegister = () => {
                     name="pincode"
                     onChange={handleUserInput}
                     value={user.pincode}
+                    required
                   />
                 </div>
 

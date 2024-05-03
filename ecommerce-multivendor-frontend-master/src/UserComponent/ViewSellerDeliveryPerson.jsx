@@ -1,41 +1,41 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ViewSellerDeliveryPerson = () => {
   const [allDelivery, setAllDelivery] = useState([]);
-
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
 
-  let navigate = useNavigate();
-
   useEffect(() => {
     const getAllUsers = async () => {
-      const allUsers = await retrieveAllUser();
-      if (allUsers) {
-        setAllDelivery(allUsers.users);
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/user/fetch/seller/delivery-person?sellerId=" +
+            seller.id,
+          {
+            headers: {
+              Authorization: "Bearer " + seller_jwtToken,
+            },
+          }
+        );
+        setAllDelivery(response.data.users);
+      } catch (error) {
+        console.error("Error fetching delivery persons:", error);
+        toast.error("Error fetching delivery persons", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     };
 
     getAllUsers();
-  }, []);
-
-  const retrieveAllUser = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/user/fetch/seller/delivery-person?sellerId=" +
-        seller.id,
-      {
-        headers: {
-          Authorization: "Bearer " + seller_jwtToken, // Replace with your actual JWT token
-        },
-      }
-    );
-    console.log(response.data);
-    return response.data;
-  };
+  }, [seller.id, seller_jwtToken]);
 
   const deleteDelivery = (userId, e) => {
     fetch(
@@ -122,42 +122,31 @@ const ViewSellerDeliveryPerson = () => {
             overflowY: "auto",
           }}
         >
-          <div className="table-responsive">
-            <table className="table table-hover text-color text-center">
-              <thead className="table-bordered border-color bg-color custom-bg-text">
-                <tr>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">Email Id</th>
-                  <th scope="col">Phone No</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allDelivery.map((delivery) => {
-                  return (
-                    <tr>
+          {allDelivery.length === 0 ? (
+            <p className="text-center">No records found</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover text-color text-center">
+                <thead className="table-bordered border-color bg-color custom-bg-text">
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email Id</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allDelivery.map((delivery) => (
+                    <tr key={delivery.id}>
+                      <td>{delivery.firstName}</td>
+                      <td>{delivery.lastName}</td>
+                      <td>{delivery.emailId}</td>
+                      <td>{delivery.phoneNo}</td>
                       <td>
-                        <b>{delivery.firstName}</b>
-                      </td>
-                      <td>
-                        <b>{delivery.lastName}</b>
-                      </td>
-                      <td>
-                        <b>{delivery.emailId}</b>
-                      </td>
-                      <td>
-                        <b>{delivery.phoneNo}</b>
-                      </td>
-                      <td>
-                        <b>
-                          {delivery.address.street +
-                            ", " +
-                            delivery.address.city +
-                            ", " +
-                            delivery.address.pincode}
-                        </b>
+                        {delivery.address.street}, {delivery.address.city},{" "}
+                        {delivery.address.pincode}
                       </td>
                       <td>
                         <button
@@ -168,15 +157,15 @@ const ViewSellerDeliveryPerson = () => {
                         </button>
                       </td>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default ViewSellerDeliveryPerson;
+export default ViewSellerDeliveryPerson; 

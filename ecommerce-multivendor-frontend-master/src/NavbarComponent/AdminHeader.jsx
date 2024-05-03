@@ -20,88 +20,88 @@ const AdminHeader = () => {
     });
     sessionStorage.removeItem("active-admin");
     sessionStorage.removeItem("admin-jwtToken");
-    window.location.reload(true);
     setTimeout(() => {
+      window.location.reload(true);
       navigate("/home");
     }, 2000); // Redirect after 3 seconds
   };
   return (
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
-      <li class="nav-item">
+    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
+      <li className="nav-item">
         <Link
           to="/user/admin/register"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">Register Admin</b>
         </Link>
       </li>
-      <li class="nav-item">
-        <Link to="/category/add" class="nav-link active" aria-current="page">
+      <li className="nav-item">
+        <Link to="/category/add" className="nav-link active" aria-current="page">
           <b className="text-color"> Add Category</b>
         </Link>
       </li>
 
-      <li class="nav-item">
-        <Link to="/admin/order/all" class="nav-link active" aria-current="page">
+      <li className="nav-item">
+        <Link to="/admin/order/all" className="nav-link active" aria-current="page">
           <b className="text-color">All Orders</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/admin/product/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">All Products</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/admin/category/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">All Categories</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/admin/seller/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">All Sellers</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/admin/delivery-person/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">All Deliveries</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to="/admin/customer/all"
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
         >
           <b className="text-color">View Customers</b>
         </Link>
       </li>
 
-      <li class="nav-item">
+      <li className="nav-item">
         <Link
           to=""
-          class="nav-link active"
+          className="nav-link active"
           aria-current="page"
           onClick={adminLogout}
         >

@@ -12,7 +12,7 @@ const ViewMyCart = () => {
   const [carts, setCarts] = useState([]);
   const [cartAmount, setCartAmount] = useState("0.0");
 
-  const [productCart, setProductCart] = useState({});
+  // const [productCart, setProductCart] = useState({});
 
   let navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const ViewMyCart = () => {
     };
 
     getAllCart();
-  }, []);
+  });
 
   const retrieveCart = async () => {
     const response = await axios.get(
@@ -40,7 +40,6 @@ const ViewMyCart = () => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   };
 
@@ -284,14 +283,14 @@ const ViewMyCart = () => {
               <tbody>
                 {carts.map((cart) => {
                   return (
-                    <tr>
+                    <tr key={cart.id}>
                       <td>
                         <img
                           src={
                             "http://localhost:8080/api/product/" +
                             cart.product.image1
                           }
-                          class="img-fluid"
+                          className="img-fluid"
                           alt="product_pic"
                           style={{
                             maxWidth: "90px",
@@ -302,10 +301,10 @@ const ViewMyCart = () => {
                         <b>{cart.product.name}</b>
                       </td>
                       <td>
-                        <b>{cart.product.category.name}</b>
+                        <b>{cart.product.category ? cart.product.category.name : 'Not Available'}</b>
                       </td>
                       <td>
-                        <b>{cart.product.seller.firstName}</b>
+                        <b>{cart.product.seller ? cart.product.seller.firstName : 'Not Available'}</b>
                       </td>
                       <td>
                         <b>{cart.product.price}</b>

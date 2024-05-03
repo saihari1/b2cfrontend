@@ -18,10 +18,19 @@ const UpdateProductForm = () => {
   let navigate = useNavigate();
 
   const retrieveAllCategories = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/category/fetch/all"
-    );
-    return response.data;
+    try {
+      const response = await axios.get("http://localhost:8080/api/category/fetch/all");
+      if (response.data.success) {
+        setCategories(response.data.categories);
+      } else {
+        toast.error(response.data.message, { position: "top-center" });
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to fetch categories. Please try again later.", {
+        position: "top-center",
+      });
+    }
   };
 
   useEffect(() => {
@@ -45,14 +54,12 @@ const UpdateProductForm = () => {
     description: product.description,
     price: product.price,
     quantity: product.quantity,
-    categoryId: product.categoryId,
+    categoryId: product.category.id,
     sellerId: product.sellerId,
   });
-
   const handleInput = (e) => {
     setUpdatedProduct({ ...updatedProduct, [e.target.name]: e.target.value });
   };
-
   const saveProduct = (e) => {
     e.preventDefault();
     if (seller === null) {
@@ -295,12 +302,15 @@ const UpdateProductForm = () => {
                       name="categoryId"
                       onChange={handleInput}
                       className="form-control"
+                      value={updatedProduct.categoryId}
                     >
-                      <option value="">Select Category</option>
+                      {/* <option value={updatedProduct.categoryId} disabled>
+                        Updated Category ID: {updatedProduct.categoryId}
+                      </option> */}
 
                       {categories.map((category) => {
                         return (
-                          <option value={category.id}> {category.name} </option>
+                          <option key={category.id} value={category.id}> {category.name} </option>
                         );
                       })}
                     </select>

@@ -5,11 +5,14 @@ import { Button, Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const ViewDeliveryOrders = () => {
-  const deliveryPerson = JSON.parse(sessionStorage.getItem("active-delivery"));
+  const deliveryPerson = JSON.parse(sessionStorage.getItem("active-delivery")) || {};
   const [orders, setOrders] = useState([]);
-
-  const delivery_jwtToken = sessionStorage.getItem("delivery-jwtToken");
-
+  const [deliveryStatus, setDeliveryStatus] = useState([]);
+  const [deliveryTime, setDeliveryTime] = useState([]);
+  const [orderId, setOrderId] = useState("");
+  const [tempOrderId, setTempOrderId] = useState("");
+  const [assignOrderId, setAssignOrderId] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [deliveryUpdateRequest, setDeliveryUpdateRequest] = useState({
     orderId: "",
     deliveryStatus: "",
@@ -17,9 +20,10 @@ const ViewDeliveryOrders = () => {
     deliveryDate: "",
     deliveryId: deliveryPerson.id,
   });
+  const delivery_jwtToken = sessionStorage.getItem("delivery-jwtToken");
 
-  const [deliveryStatus, setDeliveryStatus] = useState([]);
-  const [deliveryTime, setDeliveryTime] = useState([]);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   const handleInput = (e) => {
     setDeliveryUpdateRequest({
@@ -28,24 +32,38 @@ const ViewDeliveryOrders = () => {
     });
   };
 
-  const [orderId, setOrderId] = useState("");
-  const [tempOrderId, setTempOrderId] = useState("");
-  const [assignOrderId, setAssignOrderId] = useState("");
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
-
   useEffect(() => {
+    const retrieveOrdersById = async () => {
+      const response = await axios.get(
+        "http://localhost:8080/api/order/fetch?orderId=" + orderId
+      );
+      return response.data;
+    };
+
+    const retrieveAllorders = async () => {
+      const response = await axios.get(
+        "http://localhost:8080/api/order/fetch/delivery-wise?deliveryPersonId=" +
+          deliveryPerson.id,
+        {
+          headers: {
+            Authorization: "Bearer " + delivery_jwtToken,
+          },
+        }
+      );
+      return response.data;
+    };
+
     const getAllOrders = async () => {
+      if (!delivery_jwtToken || !deliveryPerson.id) {
+        window.location.href = "/home";
+        return;
+      }
       let allOrders;
       if (orderId) {
         allOrders = await retrieveOrdersById();
       } else {
         allOrders = await retrieveAllorders();
       }
-
       if (allOrders) {
         setOrders(allOrders.orders);
       }
@@ -53,7 +71,6 @@ const ViewDeliveryOrders = () => {
 
     const getAllDeliveryStatus = async () => {
       let allStatus = await retrieveAllDeliveryStatus();
-
       if (allStatus) {
         setDeliveryStatus(allStatus);
       }
@@ -61,7 +78,6 @@ const ViewDeliveryOrders = () => {
 
     const getAllDeliveryTiming = async () => {
       let allTiming = await retrieveAllDeliveryTiming();
-
       if (allTiming) {
         setDeliveryTime(allTiming);
       }
@@ -70,27 +86,12 @@ const ViewDeliveryOrders = () => {
     getAllOrders();
     getAllDeliveryStatus();
     getAllDeliveryTiming();
-  }, [orderId]);
-
-  const retrieveAllorders = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/order/fetch/delivery-wise?deliveryPersonId=" +
-        deliveryPerson.id,
-      {
-        headers: {
-          Authorization: "Bearer " + delivery_jwtToken, // Replace with your actual JWT token
-        },
-      }
-    );
-    console.log(response.data);
-    return response.data;
-  };
+  }, [orderId, delivery_jwtToken, deliveryPerson.id]);
 
   const retrieveAllDeliveryStatus = async () => {
     const response = await axios.get(
       "http://localhost:8080/api/order/fetch/delivery-status/all"
     );
-    console.log(response.data);
     return response.data;
   };
 
@@ -98,23 +99,12 @@ const ViewDeliveryOrders = () => {
     const response = await axios.get(
       "http://localhost:8080/api/order/fetch/delivery-time/all"
     );
-    console.log(response.data);
-    return response.data;
-  };
-
-  const retrieveOrdersById = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/order/fetch?orderId=" + orderId
-    );
-    console.log(response.data);
     return response.data;
   };
 
   const formatDateFromEpoch = (epochTime) => {
     const date = new Date(Number(epochTime));
-    const formattedDate = date.toLocaleString(); // Adjust the format as needed
-
-    return formattedDate;
+    return date.toLocaleString();
   };
 
   const searchOrderById = (e) => {
@@ -129,7 +119,6 @@ const ViewDeliveryOrders = () => {
 
   const updateOrderStatus = (orderId, e) => {
     deliveryUpdateRequest.orderId = assignOrderId;
-
     fetch("http://localhost:8080/api/order/update/delivery-status", {
       method: "PUT",
       headers: {
@@ -151,10 +140,9 @@ const ViewDeliveryOrders = () => {
               draggable: true,
               progress: undefined,
             });
-
             setTimeout(() => {
               window.location.reload(true);
-            }, 2000); // Redirect after 3 seconds
+            }, 2000);
           } else if (!res.success) {
             toast.error(res.responseMessage, {
               position: "top-center",
@@ -167,7 +155,7 @@ const ViewDeliveryOrders = () => {
             });
             setTimeout(() => {
               window.location.reload(true);
-            }, 2000); // Redirect after 3 seconds
+            }, 2000);
           } else {
             toast.error("It Seems Server is down!!!", {
               position: "top-center",
@@ -180,7 +168,7 @@ const ViewDeliveryOrders = () => {
             });
             setTimeout(() => {
               window.location.reload(true);
-            }, 2000); // Redirect after 3 seconds
+            }, 2000);
           }
         });
       })
@@ -197,48 +185,32 @@ const ViewDeliveryOrders = () => {
         });
         setTimeout(() => {
           window.location.reload(true);
-        }, 1000); // Redirect after 3 seconds
+        }, 1000);
       });
   };
 
   return (
     <div className="mt-3">
-      <div
-        className="card form-card ms-2 me-2 mb-5 custom-bg shadow-lg"
-        style={{
-          height: "40rem",
-        }}
-      >
-        <div
-          className="card-header custom-bg-text text-center bg-color"
-          style={{
-            borderRadius: "1em",
-            height: "50px",
-          }}
-        >
+      <div className="card form-card ms-2 me-2 mb-5 custom-bg shadow-lg" style={{ height: "40rem" }}>
+        <div className="card-header custom-bg-text text-center bg-color" style={{ borderRadius: "1em", height: "50px" }}>
           <h2>My Delivery Orders</h2>
         </div>
-        <div
-          className="card-body"
-          style={{
-            overflowY: "auto",
-          }}
-        >
-          <form class="row g-3">
-            <div class="col-auto">
+        <div className="card-body" style={{ overflowY: "auto" }}>
+          <form className="row g-3">
+            <div className="col-auto">
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="inputPassword2"
                 placeholder="Enter Order Id..."
                 onChange={(e) => setTempOrderId(e.target.value)}
                 value={tempOrderId}
               />
             </div>
-            <div class="col-auto">
+            <div className="col-auto">
               <button
                 type="submit"
-                class="btn bg-color custom-bg-text mb-3"
+                className="btn bg-color custom-bg-text mb-3"
                 onClick={searchOrderById}
               >
                 Search
@@ -269,7 +241,7 @@ const ViewDeliveryOrders = () => {
               <tbody>
                 {orders.map((order) => {
                   return (
-                    <tr>
+                    <tr key={order.orderId}>
                       <td>
                         <b>{order.orderId}</b>
                       </td>
@@ -279,7 +251,7 @@ const ViewDeliveryOrders = () => {
                             "http://localhost:8080/api/product/" +
                             order.product.image1
                           }
-                          class="img-fluid"
+                          className="img-fluid"
                           alt="product_pic"
                           style={{
                             maxWidth: "90px",
@@ -290,7 +262,7 @@ const ViewDeliveryOrders = () => {
                         <b>{order.product.name}</b>
                       </td>
                       <td>
-                        <b>{order.product.category.name}</b>
+                        <b>{order.product.category ? order.product.category.name : 'Not Available'}</b>
                       </td>
                       <td>
                         <b>{order.product.seller.firstName}</b>
@@ -381,20 +353,20 @@ const ViewDeliveryOrders = () => {
         <Modal.Body>
           <div className="ms-3 mt-3 mb-3 me-3">
             <form>
-              <div class="mb-3">
-                <label for="title" class="form-label">
+              <div className="mb-3">
+                <label for="title" className="form-label">
                   <b>Order Id</b>
                 </label>
-                <input type="text" class="form-control" value={assignOrderId} />
+                <input type="text" className="form-control" value={assignOrderId} />
               </div>
 
               <div className="mb-3">
-                <label for="deliveryDate" class="form-label">
+                <label for="deliveryDate" className="form-label">
                   <b>Delivery Date</b>
                 </label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   id="deliveryDate"
                   name="deliveryDate"
                   onChange={handleInput}
@@ -412,10 +384,10 @@ const ViewDeliveryOrders = () => {
                   onChange={handleInput}
                   className="form-control"
                 >
-                  <option value="">Select Delivery Time</option>
+                  <option key="default" value="">Select Delivery Time</option>
 
-                  {deliveryTime.map((time) => {
-                    return <option value={time}>{time}</option>;
+                  {deliveryTime.map((time, index) => {
+                    return <option key={index} value={time}>{time}</option>;
                   })}
                 </select>
               </div>
@@ -430,10 +402,10 @@ const ViewDeliveryOrders = () => {
                   onChange={handleInput}
                   className="form-control"
                 >
-                  <option value="">Select Delivery Status</option>
+                  <option  key="default" value="">Select Delivery Status</option>
 
-                  {deliveryStatus.map((status) => {
-                    return <option value={status}>{status}</option>;
+                  {deliveryStatus.map((status,index) => {
+                    return <option key={index} value={status}>{status}</option>;
                   })}
                 </select>
               </div>
@@ -442,7 +414,7 @@ const ViewDeliveryOrders = () => {
                 <button
                   type="submit"
                   onClick={() => updateOrderStatus(assignOrderId)}
-                  class="btn bg-color custom-bg-text"
+                  className="btn bg-color custom-bg-text"
                 >
                   Update Status
                 </button>

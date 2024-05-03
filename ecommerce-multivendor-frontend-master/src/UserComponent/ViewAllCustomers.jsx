@@ -16,6 +16,7 @@ const ViewAllCustomers = () => {
     };
 
     getAllUsers();
+    // eslint-disable-next-line
   }, []);
 
   const retrieveAllUser = async () => {

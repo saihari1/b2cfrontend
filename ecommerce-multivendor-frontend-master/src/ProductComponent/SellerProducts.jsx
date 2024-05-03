@@ -8,7 +8,7 @@ const SellerProducts = () => {
   const location = useLocation();
   const seller = location.state;
 
-  const { categoryId, categoryName, sellerName } = useParams();
+  const { categoryId, sellerName } = useParams();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

@@ -8,14 +8,14 @@ const UpdateCategoryForm = () => {
   const category = location.state;
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
-  const [id, setId] = useState(category.id);
+  // const [id, setId] = useState(category.id);
   const [name, setName] = useState(category.name);
   const [description, setDescription] = useState(category.description);
 
   let navigate = useNavigate();
 
   const saveCategory = (e) => {
-    let data = { id, name, description };
+    let data = {id: category.id, name, description };
 
     fetch("http://localhost:8080/api/category/update", {
       method: "PUT",
@@ -91,9 +91,9 @@ const UpdateCategoryForm = () => {
 
   return (
     <div>
-      <div class="mt-2 d-flex aligns-items-center justify-content-center">
+      <div className="mt-2 d-flex aligns-items-center justify-content-center">
         <div
-          class="form-card border-color custom-bg"
+          className="form-card border-color custom-bg"
           style={{ width: "25rem" }}
         >
           <div className="container-fluid">
@@ -104,17 +104,17 @@ const UpdateCategoryForm = () => {
                 height: "38px",
               }}
             >
-              <h5 class="card-title">Update Category</h5>
+              <h5 className="card-title">Update Category</h5>
             </div>
-            <div class="card-body text-color mt-3">
+            <div className="card-body text-color mt-3">
               <form>
-                <div class="mb-3">
-                  <label for="title" class="form-label">
+                <div className="mb-3">
+                  <label for="title" className="form-label">
                     <b>Category Title</b>
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="title"
                     placeholder="enter title.."
                     onChange={(e) => {
@@ -123,12 +123,12 @@ const UpdateCategoryForm = () => {
                     value={name}
                   />
                 </div>
-                <div class="mb-3">
-                  <label for="description" class="form-label">
+                <div className="mb-3">
+                  <label for="description" className="form-label">
                     <b>Category Description</b>
                   </label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="description"
                     rows="3"
                     placeholder="enter description.."
@@ -143,7 +143,7 @@ const UpdateCategoryForm = () => {
                   <button
                     type="submit"
                     onClick={saveCategory}
-                    class="btn bg-color custom-bg-text"
+                    className="btn bg-color custom-bg-text"
                   >
                     Update Category
                   </button>

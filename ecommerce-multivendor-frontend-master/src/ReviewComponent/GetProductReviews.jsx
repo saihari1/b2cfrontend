@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import star from "../images/star.png";
@@ -28,16 +28,17 @@ const GetProductReviews = (hotel) => {
     };
 
     getAllReviews();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <div
-      class="list-group form-card border-color"
+      className="list-group form-card border-color"
       style={{
         height: "25rem",
       }}
     >
-      <div class="list-group-item list-group-item-action bg-color custom-bg-text">
+      <div className="list-group-item list-group-item-action bg-color custom-bg-text">
         <b>
           Product Reviews [Rating: {rating} ]
           <img
@@ -56,7 +57,7 @@ const GetProductReviews = (hotel) => {
       >
         {reviews.map((review) => {
           return (
-            <div class="list-group-item list-group-item-action text-color custom-bg">
+            <div className="list-group-item list-group-item-action text-color custom-bg">
               <b className="text-color1">{review.user.firstName + " "}</b>
               <b className="text-color">{review.star + " /5 "}</b>
               <img

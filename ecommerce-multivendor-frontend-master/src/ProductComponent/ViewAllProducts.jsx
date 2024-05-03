@@ -84,7 +84,7 @@ const ViewAllProducts = () => {
                         <b>{product.description}</b>
                       </td>
                       <td>
-                        <b>{product.category.name}</b>
+                        <b>{product.category ? product.category.name : "No Category"}</b>
                       </td>
                       <td>
                         <b>{product.quantity}</b>

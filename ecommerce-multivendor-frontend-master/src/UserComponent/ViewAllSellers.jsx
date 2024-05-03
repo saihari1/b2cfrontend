@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ViewAllSellers = () => {
@@ -9,8 +9,8 @@ const ViewAllSellers = () => {
 
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
-
-  let navigate = useNavigate();
+console.log(seller);
+  // let navigate = useNavigate();
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -21,6 +21,7 @@ const ViewAllSellers = () => {
     };
 
     getAllUsers();
+    // eslint-disable-next-line
   }, []);
 
   const retrieveAllUser = async () => {
