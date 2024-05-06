@@ -40,7 +40,6 @@ const UserRegister = () => {
 
     if (user.role === "Delivery") {
       user.sellerId = seller.id;
-      // jwtToken = sessionStorage.getItem("seller-jwtToken"); // Use bank's JWT token for customer register
     }
 
     fetch("http://172.17.0.2:8081/api/user/register", {
@@ -48,8 +47,6 @@ const UserRegister = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-
-        //    Authorization: "Bearer " + jwtToken,
       },
       body: JSON.stringify(user),
     })
@@ -83,9 +80,9 @@ const UserRegister = () => {
 
             setTimeout(() => {
               window.location.reload(true);
-            }, 1000); // Redirect after 3 seconds
+            }, 1000); 
           } else {
-            toast.error("It seems server is down", {
+            toast.error("It seems the server is down", {
               position: "top-center",
               autoClose: 1000,
               hideProgressBar: false,
@@ -97,13 +94,13 @@ const UserRegister = () => {
 
             setTimeout(() => {
               window.location.reload(true);
-            }, 1000); // Redirect after 3 seconds
+            }, 1000); 
           }
         });
       })
       .catch((error) => {
         console.error(error);
-        toast.error("It seems server is down", {
+        toast.error("It seems the server is down", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -114,7 +111,7 @@ const UserRegister = () => {
         });
         setTimeout(() => {
           window.location.reload(true);
-        }, 1000); // Redirect after 3 seconds
+        }, 1000); 
       });
     e.preventDefault();
   };
