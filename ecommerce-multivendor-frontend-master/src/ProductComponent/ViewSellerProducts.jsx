@@ -27,7 +27,7 @@ const ViewSellerProducts = () => {
   const retrieveAllProducts = async () => {
     if (seller) { // Check if seller object exists
       const response = await axios.get(
-        "http://localhost:8080/api/product/fetch/seller-wise?sellerId=" +
+        "http://172.17.0.2:8081/api/product/fetch/seller-wise?sellerId=" +
         seller.id
       );
       return response.data;
@@ -38,7 +38,7 @@ const ViewSellerProducts = () => {
 
   const deleteProduct = (productId, e) => {
     fetch(
-      "http://localhost:8080/api/product/delete?productId=" +
+      "http://172.17.0.2:8081/api/product/delete?productId=" +
       productId +
       "&sellerId=" +
       seller.id,
@@ -155,7 +155,7 @@ const ViewSellerProducts = () => {
                       <td>
                         <img
                           src={
-                            "http://localhost:8080/api/product/" +
+                            "http://172.17.0.2:8081/api/product/" +
                             product.image1
                           }
                           class="img-fluid"
