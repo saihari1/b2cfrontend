@@ -18,7 +18,7 @@ const ViewAllProducts = () => {
 
   const retrieveAllProducts = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/product/fetch/all"
+      "http://43.204.61.151:8080/api/product/fetch/all"
     );
     console.log(response.data);
     return response.data;
@@ -67,7 +67,7 @@ const ViewAllProducts = () => {
                       <td>
                         <img
                           src={
-                            "http://172.17.0.2:8081/api/product/" +
+                            "http://43.204.61.151:8080/api/product/" +
                             product.image1
                           }
                           class="img-fluid"

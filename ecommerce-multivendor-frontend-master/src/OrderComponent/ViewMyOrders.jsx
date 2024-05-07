@@ -12,7 +12,7 @@ const ViewMyOrders = () => {
   useEffect(() => {
     const retrieveCart = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/order/fetch/user-wise?userId=" + user.id,
+        "http://43.204.61.151:8080/api/order/fetch/user-wise?userId=" + user.id,
         {
           headers: {
             Authorization: "Bearer " + customer_jwtToken,
@@ -90,7 +90,7 @@ const ViewMyOrders = () => {
                       <td>
                         <img
                           src={
-                            "http://172.17.0.2:8081/api/product/" +
+                            "http://43.204.61.151:8080/api/product/" +
                             order.product.image1
                           }
                           className="img-fluid"

@@ -29,7 +29,7 @@
 
 //   const retrieveAllorders = async () => {
 //     const response = await axios.get(
-//       "http://172.17.0.2:8081/api/order/fetch/all",
+//       "http://43.204.61.151:8080/api/order/fetch/all",
 //       {
 //         headers: {
 //           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token
@@ -42,7 +42,7 @@
 
 //   const retrieveOrdersById = async () => {
 //     const response = await axios.get(
-//       "http://172.17.0.2:8081/api/order/fetch?orderId=" + orderId
+//       "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
 //     );
 //     console.log(response.data);
 //     return response.data;
@@ -134,7 +134,7 @@
 //                       <td>
 //                         <img
 //                           src={
-//                             "http://172.17.0.2:8081/api/product/" +
+//                             "http://43.204.61.151:8080/api/product/" +
 //                             order.product.image1
 //                           }
 //                           className="img-fluid"
@@ -230,7 +230,7 @@ const ViewAllOrders = () => {
   useEffect(() => {
     const retrieveAllorders = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/order/fetch/all",
+        "http://43.204.61.151:8080/api/order/fetch/all",
         {
           headers: {
             Authorization: "Bearer " + admin_jwtToken,
@@ -242,7 +242,7 @@ const ViewAllOrders = () => {
 
     const retrieveOrdersById = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/order/fetch?orderId=" + orderId
+        "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
       );
       return response.data;
     };
@@ -335,7 +335,7 @@ const ViewAllOrders = () => {
                         <td><b>{order.orderId}</b></td>
                         <td>
                           <img
-                            src={"http://172.17.0.2:8081/api/product/" + (order.product ? order.product.image1 : "")}
+                            src={"http://43.204.61.151:8080/api/product/" + (order.product ? order.product.image1 : "")}
                             className="img-fluid"
                             alt="product_pic"
                             style={{ maxWidth: "90px" }}

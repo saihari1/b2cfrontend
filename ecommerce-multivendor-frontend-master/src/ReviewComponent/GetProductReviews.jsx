@@ -12,7 +12,7 @@ const GetProductReviews = (hotel) => {
 
   const retrieveAllReviews = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/product/review/fetch?productId=" + productId
+      "http://43.204.61.151:8080/api/product/review/fetch?productId=" + productId
     );
     return response.data;
   };

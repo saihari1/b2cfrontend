@@ -24,7 +24,7 @@ const ViewAllCategories = () => {
 
   const retrieveAllCategory = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/category/fetch/all"
+      "http://43.204.61.151:8080/api/category/fetch/all"
     );
     console.log(response.data);
     return response.data;
@@ -32,7 +32,7 @@ const ViewAllCategories = () => {
 
   const deleteCategory = (categoryId, e) => {
     fetch(
-      "http://172.17.0.2:8081/api/category/delete?categoryId=" + categoryId,
+      "http://43.204.61.151:8080/api/category/delete?categoryId=" + categoryId,
       {
         method: "DELETE",
         headers: {

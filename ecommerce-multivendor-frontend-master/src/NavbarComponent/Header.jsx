@@ -9,7 +9,7 @@ const Header = () => {
 
   const retrieveAllCategories = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/category/fetch/all?start=0&count=12"
+      "http://43.204.61.151:8080/api/category/fetch/all?start=0&count=12"
     );
     return response.data;
   };

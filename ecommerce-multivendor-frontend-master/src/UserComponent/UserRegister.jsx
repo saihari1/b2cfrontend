@@ -42,7 +42,7 @@ const UserRegister = () => {
       user.sellerId = seller.id;
     }
 
-    fetch("http://172.17.0.2:8081/api/user/register", {
+    fetch("http://43.204.61.151:8080/api/user/register", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -17,7 +17,7 @@ const UpdateCategoryForm = () => {
   const saveCategory = (e) => {
     let data = {id: category.id, name, description };
 
-    fetch("http://172.17.0.2:8081/api/category/update", {
+    fetch("http://43.204.61.151:8080/api/category/update", {
       method: "PUT",
       headers: {
         Accept: "application/json",

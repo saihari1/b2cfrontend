@@ -83,7 +83,7 @@ const AddCardDetails = () => {
       return;
     }
 
-    fetch("http://172.17.0.2:8081/api/order/add?userId=" + user.id, {
+    fetch("http://43.204.61.151:8080/api/order/add?userId=" + user.id, {
       method: "POST",
       headers: {
         Accept: "application/json",

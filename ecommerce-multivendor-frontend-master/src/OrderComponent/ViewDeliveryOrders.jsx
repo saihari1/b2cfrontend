@@ -35,14 +35,14 @@ const ViewDeliveryOrders = () => {
   useEffect(() => {
     const retrieveOrdersById = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/order/fetch?orderId=" + orderId
+        "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
       );
       return response.data;
     };
 
     const retrieveAllorders = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/order/fetch/delivery-wise?deliveryPersonId=" +
+        "http://43.204.61.151:8080/api/order/fetch/delivery-wise?deliveryPersonId=" +
           deliveryPerson.id,
         {
           headers: {
@@ -90,14 +90,14 @@ const ViewDeliveryOrders = () => {
 
   const retrieveAllDeliveryStatus = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/order/fetch/delivery-status/all"
+      "http://43.204.61.151:8080/api/order/fetch/delivery-status/all"
     );
     return response.data;
   };
 
   const retrieveAllDeliveryTiming = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/order/fetch/delivery-time/all"
+      "http://43.204.61.151:8080/api/order/fetch/delivery-time/all"
     );
     return response.data;
   };
@@ -119,7 +119,7 @@ const ViewDeliveryOrders = () => {
 
   const updateOrderStatus = (orderId, e) => {
     deliveryUpdateRequest.orderId = assignOrderId;
-    fetch("http://172.17.0.2:8081/api/order/update/delivery-status", {
+    fetch("http://43.204.61.151:8080/api/order/update/delivery-status", {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -248,7 +248,7 @@ const ViewDeliveryOrders = () => {
                       <td>
                         <img
                           src={
-                            "http://172.17.0.2:8081/api/product/" +
+                            "http://43.204.61.151:8080/api/product/" +
                             order.product.image1
                           }
                           className="img-fluid"

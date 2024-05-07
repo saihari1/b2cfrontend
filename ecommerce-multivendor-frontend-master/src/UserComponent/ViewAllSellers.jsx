@@ -3,15 +3,12 @@ import axios from "axios";
 import React from "react";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
 const ViewAllSellers = () => {
   const [allSeller, setAllSeller] = useState([]);
-
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 console.log(seller);
   // let navigate = useNavigate();
-
   useEffect(() => {
     const getAllUsers = async () => {
       const allUsers = await retrieveAllUser();
@@ -19,14 +16,13 @@ console.log(seller);
         setAllSeller(allUsers.users);
       }
     };
-
     getAllUsers();
     // eslint-disable-next-line
   }, []);
 
   const retrieveAllUser = async () => {
     const response = await axios.get(
-      "http://172.17.0.2:8081/api/user/fetch/role-wise?role=Seller",
+      "http://43.204.61.151:8080/api/user/fetch/role-wise?role=Seller",
       {
         headers: {
           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token
@@ -38,7 +34,7 @@ console.log(seller);
   };
 
   const deleteSeller = (userId, e) => {
-    fetch("http://172.17.0.2:8081/api/user/delete/seller?sellerId=" + userId, {
+    fetch("http://43.204.61.151:8080/api/user/delete/seller?sellerId=" + userId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

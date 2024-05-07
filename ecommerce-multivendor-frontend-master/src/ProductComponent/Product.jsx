@@ -23,14 +23,14 @@ const Product = () => {
   useEffect(() => {
     const retrieveProduct = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/product/fetch?productId=" + productId
+        "http://43.204.61.151:8080/api/product/fetch?productId=" + productId
       );
       return response.data;
     };
 
     const retrieveProductsByCategory = async () => {
       const response = await axios.get(
-        "http://172.17.0.2:8081/api/product/fetch/category-wise?categoryId=" +
+        "http://43.204.61.151:8080/api/product/fetch/category-wise?categoryId=" +
           categoryId
       );
       console.log(response.data);
@@ -54,7 +54,7 @@ const Product = () => {
   }, [productId, categoryId]);
 
   const saveProductToCart = (userId) => {
-    fetch("http://172.17.0.2:8081/api/cart/add", {
+    fetch("http://43.204.61.151:8080/api/cart/add", {
       method: "POST",
       headers: {
         Accept: "application/json",

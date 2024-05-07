@@ -19,7 +19,7 @@ const UpdateProductForm = () => {
 
   const retrieveAllCategories = async () => {
     try {
-      const response = await axios.get("http://172.17.0.2:8081/api/category/fetch/all");
+      const response = await axios.get("http://43.204.61.151:8080/api/category/fetch/all");
       if (response.data.success) {
         setCategories(response.data.categories);
       } else {
@@ -76,7 +76,7 @@ const UpdateProductForm = () => {
       return;
     }
 
-    fetch("http://172.17.0.2:8081/api/product/update/detail", {
+    fetch("http://43.204.61.151:8080/api/product/update/detail", {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -171,7 +171,7 @@ const UpdateProductForm = () => {
     formData.append("id", product.id);
 
     axios
-      .put("http://172.17.0.2:8081/api/product/update/image", formData, {
+      .put("http://43.204.61.151:8080/api/product/update/image", formData, {
         headers: {
           Authorization: "Bearer " + seller_jwtToken, // Replace with your actual JWT token
         },
