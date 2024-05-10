@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies and clean up cache
+RUN npm install --production && npm cache clean --force
 
 # Copy the remaining app source code to the working directory
 COPY . .
