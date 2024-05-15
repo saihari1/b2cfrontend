@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const UserRegister = () => {
@@ -19,20 +19,20 @@ const UserRegister = () => {
     pincode: "",
     role: "",
   });
-    
+
   useEffect(() => {
-    if (document.URL.indexOf("customer") !== -1) {
-      setUser({ ...user, role: "Customer" });
-    } else if (document.URL.indexOf("delivery") !== -1) {
-      setUser({ ...user, role: "Delivery" });
-    } else if (document.URL.indexOf("seller") !== -1) {
-      setUser({ ...user, role: "Seller" });
+    const url = window.location.href;
+    if (url.includes("customer")) {
+      setUser((prevUser) => ({ ...prevUser, role: "Customer" }));
+    } else if (url.includes("delivery")) {
+      setUser((prevUser) => ({ ...prevUser, role: "Delivery" }));
+    } else if (url.includes("seller")) {
+      setUser((prevUser) => ({ ...prevUser, role: "Seller" }));
     }
-    // eslint-disable-next-line
-  }, [user]);
+  }, []);
 
   const handleUserInput = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUser((prevUser) => ({ ...prevUser, [e.target.name]: e.target.value }));
   };
 
   const saveUser = (e) => {
@@ -50,57 +50,36 @@ const UserRegister = () => {
       },
       body: JSON.stringify(user),
     })
-      .then((result) => {
-        console.log("result", result);
-        result.json().then((res) => {
-          if (res.success) {
-            toast.success(res.responseMessage, {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              navigate("/user/login");
-            }, 1000);
-          } else if (!res.success) {
-            toast.error(res.responseMessage, {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              window.location.reload(true);
-            }, 1000); 
-          } else {
-            toast.error("It seems the server is down", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              window.location.reload(true);
-            }, 1000); 
-          }
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.responseMessage, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            navigate("/user/login");
+          }, 1000);
+        } else {
+          toast.error(data.responseMessage, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("It seems the server is down", {
+        toast.error("Error registering user", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -109,16 +88,12 @@ const UserRegister = () => {
           draggable: true,
           progress: undefined,
         });
-        setTimeout(() => {
-          window.location.reload(true);
-        }, 1000); 
       });
-    e.preventDefault();
   };
 
   return (
     <div>
-      <div className="mt-2 d-flex aligns-items-center justify-content-center ms-2 me-2 mb-2">
+      <div className="mt-2 d-flex align-items-center justify-content-center ms-2 me-2 mb-2">
         <div
           className="form-card border-color text-color custom-bg"
           style={{ width: "50rem" }}
@@ -131,12 +106,12 @@ const UserRegister = () => {
                 height: "45px",
               }}
             >
-              <h5 className="card-title">Registerss Here!!!{user.role}</h5>
+              <h5 className="card-title">Register Here!!! {user.role}</h5>
             </div>
             <div className="card-body mt-3">
               <form className="row g-3" onSubmit={saveUser}>
                 <div className="col-md-6 mb-3 text-color">
-                  <label htmlFor="title" className="form-label">
+                  <label htmlFor="firstName" className="form-label">
                     <b>First Name</b>
                   </label>
                   <input
@@ -147,11 +122,11 @@ const UserRegister = () => {
                     onChange={handleUserInput}
                     value={user.firstName}
                     required
-                    />
+                  />
                 </div>
 
                 <div className="col-md-6 mb-3 text-color">
-                  <label htmlFor="title" className="form-label">
+                  <label htmlFor="lastName" className="form-label">
                     <b>Last Name</b>
                   </label>
                   <input
@@ -166,9 +141,9 @@ const UserRegister = () => {
                 </div>
 
                 <div className="col-md-6 mb-3 text-color">
-                  <b>
-                    <label className="form-label">Email Id</label>
-                  </b>
+                  <label htmlFor="emailId" className="form-label">
+                    <b>Email Id</b>
+                  </label>
                   <input
                     type="email"
                     className="form-control"
@@ -179,8 +154,9 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="quantity" className="form-label">
+
+                <div className="col-md-6 mb-3 text-color">
+                  <label htmlFor="password" className="form-label">
                     <b>Password</b>
                   </label>
                   <input
@@ -191,15 +167,15 @@ const UserRegister = () => {
                     onChange={handleUserInput}
                     value={user.password}
                     required
-                    />
+                  />
                 </div>
 
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="contact" className="form-label">
+                <div className="col-md-6 mb-3 text-color">
+                  <label htmlFor="phoneNo" className="form-label">
                     <b>Contact No</b>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="phoneNo"
                     name="phoneNo"
@@ -209,9 +185,9 @@ const UserRegister = () => {
                   />
                 </div>
 
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="description" className="form-label">
-                    <b> Street</b>
+                <div className="col-md-6 mb-3 text-color">
+                  <label htmlFor="street" className="form-label">
+                    <b>Street</b>
                   </label>
                   <textarea
                     className="form-control"
@@ -223,8 +199,9 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="price" className="form-label">
+
+                <div className="col-md-6 mb-3 text-color">
+                  <label htmlFor="city" className="form-label">
                     <b>City</b>
                   </label>
                   <input
@@ -237,12 +214,13 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-                <div className="col-md-6 mb-3">
+
+                <div className="col-md-6 mb-3 text-color">
                   <label htmlFor="pincode" className="form-label">
                     <b>Pincode</b>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="pincode"
                     name="pincode"
@@ -252,15 +230,13 @@ const UserRegister = () => {
                   />
                 </div>
 
-                <div className="d-flex aligns-items-center justify-content-center">
-                  <input
-                    type="submit"
-                    className="btn bg-color custom-bg-text"
-                    value="Register User"
-                  />
+                <div className="d-flex align-items-center justify-content-center">
+                  <button type="submit" className="btn bg-color custom-bg-text">
+                    Register User
+                  </button>
                 </div>
-                <ToastContainer />
               </form>
+              <ToastContainer />
             </div>
           </div>
         </div>
