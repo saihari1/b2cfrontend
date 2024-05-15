@@ -8,13 +8,18 @@ const AdminRegisterForm = () => {
 
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
-  const [registerRequest, setRegisterRequest] = useState({});
+  const [registerRequest, setRegisterRequest] = useState({
+    emailId: "",
+    password: "",
+  });
 
   const handleUserInput = (e) => {
     setRegisterRequest({ ...registerRequest, [e.target.name]: e.target.value });
   };
 
   const registerAdmin = (e) => {
+    e.preventDefault();
+
     fetch("http://15.207.180.250:8081/api/user/admin/register", {
       method: "POST",
       headers: {
@@ -24,59 +29,38 @@ const AdminRegisterForm = () => {
       },
       body: JSON.stringify(registerRequest),
     })
-      .then((result) => {
-        console.log("result", result);
-        result.json().then((res) => {
-          if (res.success) {
-            toast.success(res.responseMessage, {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              navigate("/home");
-            }, 1000);
-          } else if (!res.success) {
-            toast.error(res.responseMessage, {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              window.location.reload(true);
-            }, 1000); // Redirect after 3 seconds
-          } else {
-            toast.error("It seems server is down", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            setTimeout(() => {
-              window.location.reload(true);
-            }, 1000); // Redirect after 3 seconds
-          }
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.responseMessage, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            navigate("/home");
+          }, 3000);
+        } else {
+          toast.error(data.responseMessage, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("It seems server is down", {
+        toast.error("Error registering admin", {
           position: "top-center",
-          autoClose: 1000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -84,7 +68,6 @@ const AdminRegisterForm = () => {
           progress: undefined,
         });
       });
-    e.preventDefault();
   };
 
   return (
@@ -105,9 +88,9 @@ const AdminRegisterForm = () => {
               <h4 className="card-title">Admin Register</h4>
             </div>
             <div className="card-body mt-3">
-              <form>
+              <form onSubmit={registerAdmin}>
                 <div className="mb-3 text-color">
-                  <label for="emailId" className="form-label">
+                  <label htmlFor="emailId" className="form-label">
                     <b>Email Id</b>
                   </label>
                   <input
@@ -117,10 +100,11 @@ const AdminRegisterForm = () => {
                     name="emailId"
                     onChange={handleUserInput}
                     value={registerRequest.emailId}
+                    required
                   />
                 </div>
                 <div className="mb-3 text-color">
-                  <label for="password" className="form-label">
+                  <label htmlFor="password" className="form-label">
                     <b>Password</b>
                   </label>
                   <input
@@ -131,24 +115,23 @@ const AdminRegisterForm = () => {
                     onChange={handleUserInput}
                     value={registerRequest.password}
                     autoComplete="on"
+                    required
                   />
                 </div>
                 <div className="d-flex aligns-items-center justify-content-center">
                   <button
                     type="submit"
                     className="btn bg-color custom-bg-text mb-2"
-                    onClick={registerAdmin}
                   >
                     Register
                   </button>
                 </div>
-
-                <ToastContainer />
               </form>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
