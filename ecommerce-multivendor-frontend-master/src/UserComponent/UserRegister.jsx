@@ -131,7 +131,7 @@ const UserRegister = () => {
                 height: "45px",
               }}
             >
-              <h5 className="card-title">Register Here!!!{user.role}</h5>
+              <h5 className="card-title">Registerss Here!!!{user.role}</h5>
             </div>
             <div className="card-body mt-3">
               <form className="row g-3" onSubmit={saveUser}>
