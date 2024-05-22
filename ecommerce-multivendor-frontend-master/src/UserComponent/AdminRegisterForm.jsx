@@ -18,13 +18,7 @@ const AdminRegisterForm = () => {
   };
 
   const registerAdmin = (e) => {
-<<<<<<< HEAD
     fetch(`${api_Url}/api/user/admin/register`, {
-=======
-    e.preventDefault();
-
-    fetch("http://15.207.180.250:8081/api/user/admin/register", {
->>>>>>> fdabb5719040a980b566df26fc2248200ec92a7e
       method: "POST",
       headers: {
         Accept: "application/json",

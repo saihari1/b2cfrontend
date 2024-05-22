@@ -22,7 +22,6 @@ const UserRegister = () => {
   });
 
   useEffect(() => {
-<<<<<<< HEAD
     const url = document.URL;
     if (url.indexOf('customer') !== -1) {
       setUser((prevUser) => ({ ...prevUser, role: 'Customer' }));
@@ -30,15 +29,6 @@ const UserRegister = () => {
       setUser((prevUser) => ({ ...prevUser, role: 'Delivery' }));
     } else if (url.indexOf('seller') !== -1) {
       setUser((prevUser) => ({ ...prevUser, role: 'Seller' }));
-=======
-    const url = window.location.href;
-    if (url.includes("customer")) {
-      setUser((prevUser) => ({ ...prevUser, role: "Customer" }));
-    } else if (url.includes("delivery")) {
-      setUser((prevUser) => ({ ...prevUser, role: "Delivery" }));
-    } else if (url.includes("seller")) {
-      setUser((prevUser) => ({ ...prevUser, role: "Seller" }));
->>>>>>> fdabb5719040a980b566df26fc2248200ec92a7e
     }
   }, []);
 
@@ -53,11 +43,7 @@ const UserRegister = () => {
       user.sellerId = seller.id;
     }
 
-<<<<<<< HEAD
     fetch(`${api_Url}/api/user/register`, {
-=======
-    fetch("http://15.207.180.250:8081/api/user/register", {
->>>>>>> fdabb5719040a980b566df26fc2248200ec92a7e
       method: "POST",
       headers: {
         Accept: "application/json",
