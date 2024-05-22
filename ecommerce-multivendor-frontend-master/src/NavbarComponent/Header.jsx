@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
   const [categories, setCategories] = useState([]);
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const retrieveAllCategories = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/category/fetch/all?start=0&count=12"
+      `${api_Url}/api/category/fetch/all?start=0&count=12`
     );
     return response.data;
   };
@@ -23,6 +23,7 @@ const Header = () => {
     };
 
     getAllCategories();
+    // eslint-disable-next-line
   }, []);
 
   return (

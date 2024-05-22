@@ -7,12 +7,12 @@ import star from "../images/star.png";
 const GetProductReviews = (hotel) => {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState("0.0");
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const { productId } = useParams();
 
   const retrieveAllReviews = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/product/review/fetch?productId=" + productId
+      `${api_Url}/api/product/review/fetch?productId=` + productId
     );
     return response.data;
   };

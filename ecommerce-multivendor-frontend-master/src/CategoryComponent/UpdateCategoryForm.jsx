@@ -7,7 +7,7 @@ const UpdateCategoryForm = () => {
   const location = useLocation();
   const category = location.state;
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
-
+  const api_Url = process.env.REACT_APP_API_URL;
   // const [id, setId] = useState(category.id);
   const [name, setName] = useState(category.name);
   const [description, setDescription] = useState(category.description);
@@ -17,7 +17,7 @@ const UpdateCategoryForm = () => {
   const saveCategory = (e) => {
     let data = {id: category.id, name, description };
 
-    fetch("http://43.204.61.151:8080/api/category/update", {
+    fetch(`${api_Url}/api/category/update`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

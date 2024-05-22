@@ -29,7 +29,7 @@
 
 //   const retrieveAllorders = async () => {
 //     const response = await axios.get(
-//       "http://43.204.61.151:8080/api/order/fetch/all",
+//       `${api_Url}/api/order/fetch/all",
 //       {
 //         headers: {
 //           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token
@@ -42,7 +42,7 @@
 
 //   const retrieveOrdersById = async () => {
 //     const response = await axios.get(
-//       "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
+//       `${api_Url}/api/order/fetch?orderId=" + orderId
 //     );
 //     console.log(response.data);
 //     return response.data;
@@ -134,7 +134,7 @@
 //                       <td>
 //                         <img
 //                           src={
-//                             "http://43.204.61.151:8080/api/product/" +
+//                             `${api_Url}/api/product/" +
 //                             order.product.image1
 //                           }
 //                           className="img-fluid"
@@ -220,17 +220,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import React from "react";
 const ViewAllOrders = () => {
+
   const [orders, setOrders] = useState([]);
   const [orderId, setOrderId] = useState("");
   const [tempOrderId, setTempOrderId] = useState("");
   const [error, setError] = useState(null);
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
   useEffect(() => {
     const retrieveAllorders = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch/all",
+        `${api_Url}/api/order/fetch/all`,
         {
           headers: {
             Authorization: "Bearer " + admin_jwtToken,
@@ -242,7 +243,7 @@ const ViewAllOrders = () => {
 
     const retrieveOrdersById = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
+        `${api_Url}/api/order/fetch?orderId=` + orderId
       );
       return response.data;
     };
@@ -265,7 +266,7 @@ const ViewAllOrders = () => {
     };
 
     getAllOrders();
-  }, [orderId, admin_jwtToken]);
+  }, [orderId, admin_jwtToken,api_Url]);
 
   const formatDateFromEpoch = (epochTime) => {
     const date = new Date(Number(epochTime));
@@ -335,7 +336,7 @@ const ViewAllOrders = () => {
                         <td><b>{order.orderId}</b></td>
                         <td>
                           <img
-                            src={"http://43.204.61.151:8080/api/product/" + (order.product ? order.product.image1 : "")}
+                            src={`${api_Url}/api/product/` + (order.product ? order.product.image1 : "")}
                             className="img-fluid"
                             alt="product_pic"
                             style={{ maxWidth: "90px" }}

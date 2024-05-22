@@ -5,6 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const ViewDeliveryOrders = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const deliveryPerson = JSON.parse(sessionStorage.getItem("active-delivery")) || {};
   const [orders, setOrders] = useState([]);
   const [deliveryStatus, setDeliveryStatus] = useState([]);
@@ -35,20 +36,33 @@ const ViewDeliveryOrders = () => {
   useEffect(() => {
     const retrieveOrdersById = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
+        `${api_Url}/api/order/fetch?orderId=${orderId}`
       );
       return response.data;
     };
 
     const retrieveAllorders = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch/delivery-wise?deliveryPersonId=" +
-          deliveryPerson.id,
+        `${api_Url}/api/order/fetch/delivery-wise?deliveryPersonId=${deliveryPerson.id}`,
         {
           headers: {
-            Authorization: "Bearer " + delivery_jwtToken,
+            Authorization: `Bearer ${delivery_jwtToken}`,
           },
         }
+      );
+      return response.data;
+    };
+
+    const retrieveAllDeliveryStatus = async () => {
+      const response = await axios.get(
+        `${api_Url}/api/order/fetch/delivery-status/all`
+      );
+      return response.data;
+    };
+
+    const retrieveAllDeliveryTiming = async () => {
+      const response = await axios.get(
+        `${api_Url}/api/order/fetch/delivery-time/all`
       );
       return response.data;
     };
@@ -86,21 +100,7 @@ const ViewDeliveryOrders = () => {
     getAllOrders();
     getAllDeliveryStatus();
     getAllDeliveryTiming();
-  }, [orderId, delivery_jwtToken, deliveryPerson.id]);
-
-  const retrieveAllDeliveryStatus = async () => {
-    const response = await axios.get(
-      "http://43.204.61.151:8080/api/order/fetch/delivery-status/all"
-    );
-    return response.data;
-  };
-
-  const retrieveAllDeliveryTiming = async () => {
-    const response = await axios.get(
-      "http://43.204.61.151:8080/api/order/fetch/delivery-time/all"
-    );
-    return response.data;
-  };
+  }, [orderId, delivery_jwtToken, deliveryPerson.id, api_Url]);
 
   const formatDateFromEpoch = (epochTime) => {
     const date = new Date(Number(epochTime));
@@ -119,12 +119,12 @@ const ViewDeliveryOrders = () => {
 
   const updateOrderStatus = (orderId, e) => {
     deliveryUpdateRequest.orderId = assignOrderId;
-    fetch("http://43.204.61.151:8080/api/order/update/delivery-status", {
+    fetch(`${api_Url}/api/order/update/delivery-status`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + delivery_jwtToken,
+        Authorization: `Bearer ${delivery_jwtToken}`,
       },
       body: JSON.stringify(deliveryUpdateRequest),
     })
@@ -189,6 +189,7 @@ const ViewDeliveryOrders = () => {
       });
   };
 
+
   return (
     <div className="mt-3">
       <div className="card form-card ms-2 me-2 mb-5 custom-bg shadow-lg" style={{ height: "40rem" }}>
@@ -248,7 +249,7 @@ const ViewDeliveryOrders = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             order.product.image1
                           }
                           className="img-fluid"

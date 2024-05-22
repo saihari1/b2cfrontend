@@ -8,7 +8,7 @@ import ProductCarousel from "./ProductCarousel";
 const UpdateProductForm = () => {
   const location = useLocation();
   const product = location.state;
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const [categories, setCategories] = useState([]);
 
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
@@ -19,7 +19,7 @@ const UpdateProductForm = () => {
 
   const retrieveAllCategories = async () => {
     try {
-      const response = await axios.get("http://43.204.61.151:8080/api/category/fetch/all");
+      const response = await axios.get(`${api_Url}/api/category/fetch/all`);
       if (response.data.success) {
         setCategories(response.data.categories);
       } else {
@@ -42,6 +42,7 @@ const UpdateProductForm = () => {
     };
 
     getAllCategories();
+     // eslint-disable-next-line
   }, []);
 
   const [selectedImage1, setSelectImage1] = useState(null);
@@ -76,7 +77,7 @@ const UpdateProductForm = () => {
       return;
     }
 
-    fetch("http://43.204.61.151:8080/api/product/update/detail", {
+    fetch(`${api_Url}/api/product/update/detail`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -171,7 +172,7 @@ const UpdateProductForm = () => {
     formData.append("id", product.id);
 
     axios
-      .put("http://43.204.61.151:8080/api/product/update/image", formData, {
+      .put(`${api_Url}/api/product/update/image`, formData, {
         headers: {
           Authorization: "Bearer " + seller_jwtToken, // Replace with your actual JWT token
         },

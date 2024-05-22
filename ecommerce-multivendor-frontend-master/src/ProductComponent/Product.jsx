@@ -8,6 +8,7 @@ import GetProductReviews from "../ReviewComponent/GetProductReviews";
 import ProductCarousel from "./ProductCarousel";
 
 const Product = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const { productId, categoryId } = useParams();
   let navigate = useNavigate();
   const customer_jwtToken = sessionStorage.getItem("customer-jwtToken");
@@ -23,14 +24,14 @@ const Product = () => {
   useEffect(() => {
     const retrieveProduct = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/product/fetch?productId=" + productId
+        `${api_Url}/api/product/fetch?productId=` + productId
       );
       return response.data;
     };
 
     const retrieveProductsByCategory = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/product/fetch/category-wise?categoryId=" +
+        `${api_Url}/api/product/fetch/category-wise?categoryId=` +
           categoryId
       );
       console.log(response.data);
@@ -51,10 +52,11 @@ const Product = () => {
 
     getProduct();
     getProductsByCategory();
+     // eslint-disable-next-line
   }, [productId, categoryId]);
 
   const saveProductToCart = (userId) => {
-    fetch("http://43.204.61.151:8080/api/cart/add", {
+    fetch(`${api_Url}/api/cart/add`, {
       method: "POST",
       headers: {
         Accept: "application/json",

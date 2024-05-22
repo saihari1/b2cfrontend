@@ -10,7 +10,7 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [tempSearchText, setTempSearchText] = useState("");
-
+  const api_Url = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,17 +19,17 @@ const HomePage = () => {
         if (categoryId == null && searchText === "") {
           // Fetch all products
           response = await axios.get(
-            `http://43.204.61.151:8080/api/product/fetch/all`
+            `${api_Url}/api/product/fetch/all`
           );
         } else if (searchText) {
           // Fetch products by name
           response = await axios.get(
-            `http://43.204.61.151:8080/api/product/search?productName=${searchText}`
+            `${api_Url}/api/product/search?productName=${searchText}`
           );
         } else {
           // Fetch products by category
           response = await axios.get(
-            `http://43.204.61.151:8080/api/product/fetch/category-wise?categoryId=${categoryId}`
+            `${api_Url}/api/product/fetch/category-wise?categoryId=${categoryId}`
           );
         }
         if (response.data) {
@@ -41,6 +41,7 @@ const HomePage = () => {
     };
 
     fetchData();
+     // eslint-disable-next-line
   }, [categoryId, searchText]);
 
   const searchProducts = (e) => {

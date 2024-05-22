@@ -6,12 +6,12 @@ const ViewSellerDeliveryPerson = () => {
   const [allDelivery, setAllDelivery] = useState([]);
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
-
+  const api_Url = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getAllUsers = async () => {
       try {
         const response = await axios.get(
-          "http://43.204.61.151:8080/api/user/fetch/seller/delivery-person?sellerId=" +
+          `${api_Url}/api/user/fetch/seller/delivery-person?sellerId=` +
             seller.id,
           {
             headers: {
@@ -35,11 +35,11 @@ const ViewSellerDeliveryPerson = () => {
     };
 
     getAllUsers();
-  }, [seller.id, seller_jwtToken]);
+  }, [seller.id, seller_jwtToken,api_Url]);
 
-  const deleteDelivery = (userId, e) => {
+  const deleteDelivery = (userId) => {
     fetch(
-      "http://43.204.61.151:8080/api/user/delete/seller/delivery-person?deliveryId=" +
+      `${api_Url}/api/user/delete/seller/delivery-person?deliveryId=` +
         userId,
       {
         method: "DELETE",

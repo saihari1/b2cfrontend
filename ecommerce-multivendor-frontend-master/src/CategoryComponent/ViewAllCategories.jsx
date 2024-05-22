@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const ViewAllCategories = () => {
   const [allCategories, setAllCategories] = useState([]);
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
   let navigate = useNavigate();
@@ -20,11 +20,12 @@ const ViewAllCategories = () => {
     };
 
     getAllCategory();
+    // eslint-disable-next-line
   }, []);
 
   const retrieveAllCategory = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/category/fetch/all"
+      `${api_Url}/api/category/fetch/all`
     );
     console.log(response.data);
     return response.data;
@@ -32,7 +33,7 @@ const ViewAllCategories = () => {
 
   const deleteCategory = (categoryId, e) => {
     fetch(
-      "http://43.204.61.151:8080/api/category/delete?categoryId=" + categoryId,
+      `${api_Url}/api/category/delete?categoryId=` + categoryId,
       {
         method: "DELETE",
         headers: {

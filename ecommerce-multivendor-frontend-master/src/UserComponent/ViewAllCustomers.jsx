@@ -4,6 +4,7 @@ import React from "react";
 
 const ViewAllCustomers = () => {
   const [allCustomer, setAllCustomer] = useState([]);
+  const api_Url = process.env.REACT_APP_API_URL;
 
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
@@ -21,7 +22,7 @@ const ViewAllCustomers = () => {
 
   const retrieveAllUser = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/user/fetch/role-wise?role=Customer",
+      `${api_Url}/api/user/fetch/role-wise?role=Customer`,
       {
         headers: {
           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token

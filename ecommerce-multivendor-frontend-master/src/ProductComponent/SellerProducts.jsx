@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 const SellerProducts = () => {
   const location = useLocation();
   const seller = location.state;
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const { categoryId, sellerName } = useParams();
   const [products, setProducts] = useState([]);
 
@@ -19,12 +19,12 @@ const SellerProducts = () => {
         if (categoryId == null) {
           // Fetch all products
           response = await axios.get(
-            `http://43.204.61.151:8080/api/product/fetch/seller-wise?sellerId=${seller.id}`
+            `${api_Url}/api/product/fetch/seller-wise?sellerId=${seller.id}`
           );
         } else {
           // Fetch products by category
           response = await axios.get(
-            `http://43.204.61.151:8080/api/product/fetch/seller-wise/category-wise?sellerId=${seller.id}&categoryId=${categoryId}`
+            `${api_Url}/api/product/fetch/seller-wise/category-wise?sellerId=${seller.id}&categoryId=${categoryId}`
           );
         }
         if (response.data) {
@@ -36,6 +36,7 @@ const SellerProducts = () => {
     };
 
     fetchData();
+     // eslint-disable-next-line
   }, [seller, categoryId]);
 
   return (

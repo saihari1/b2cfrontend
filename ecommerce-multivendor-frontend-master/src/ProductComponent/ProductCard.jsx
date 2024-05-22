@@ -17,7 +17,7 @@
 //     <div className="col">
 //       <div className="card product-card rounded-card custom-bg h-100 shadow-lg">
 //         <img
-//           src={"http://43.204.61.151:8080/api/product/" + product.item.image1}
+//           src={"api_Url/api/product/" + product.item.image1}
 //           className="card-img-top img-fluid rounded"
 //           alt="img"
 //           style={{
@@ -76,6 +76,7 @@ import { Link } from "react-router-dom";
 import CategoryNavigator from "../CategoryComponent/CategoryNavigator";
 
 const ProductCard = ( product ) => {
+  const api_Url = process.env.REACT_APP_API_URL;
   // Check if product and product.item are not null
   if (!product || !product.item) {
     return null; // Return null if product or product.item is null
@@ -102,7 +103,7 @@ const ProductCard = ( product ) => {
     <div className="col">
       <div className="card product-card rounded-card custom-bg h-100 shadow-lg">
         <img
-          src={`http://43.204.61.151:8080/api/product/${image1}`}
+          src={`${api_Url}/api/product/${image1}`}
           className="card-img-top img-fluid rounded"
           alt="img"
           style={{

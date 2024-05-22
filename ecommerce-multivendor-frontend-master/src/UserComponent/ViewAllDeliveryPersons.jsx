@@ -5,7 +5,7 @@ import React from "react";
 const ViewAllDeliveryPersons = () => {
   const [allDelivery, setAllDelivery] = useState([]);
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
-
+  const api_Url = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getAllUsers = async () => {
       const allUsers = await retrieveAllUser();
@@ -20,7 +20,7 @@ const ViewAllDeliveryPersons = () => {
 
   const retrieveAllUser = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/user/fetch/role-wise?role=Delivery",
+      `${api_Url}/api/user/fetch/role-wise?role=Delivery`,
       {
         headers: {
           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token

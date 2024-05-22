@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const AddCategoryForm = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -13,7 +14,7 @@ const AddCategoryForm = () => {
   const saveCategory = (e) => {
     let data = { name, description };
 
-    fetch("http://43.204.61.151:8080/api/category/add", {
+    fetch(`${api_Url}/api/category/add`, {
       method: "POST",
       headers: {
         Accept: "application/json",

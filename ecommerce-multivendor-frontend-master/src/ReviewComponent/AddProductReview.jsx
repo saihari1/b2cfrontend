@@ -7,6 +7,7 @@ import ProductCarousel from "../ProductComponent/ProductCarousel";
 import { useLocation } from "react-router-dom";
 
 const AddProductReview = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   let user = JSON.parse(sessionStorage.getItem("active-customer"));
 
   const customer_jwtToken = sessionStorage.getItem("customer-jwtToken");
@@ -32,7 +33,7 @@ const AddProductReview = () => {
       setUserId(user.id);
       let data = { userId, productId, star, review };
 
-      fetch("http://43.204.61.151:8080/api/product/review/add", {
+      fetch(`${api_Url}/api/product/review/add`, {
         method: "POST",
         headers: {
           Accept: "application/json",

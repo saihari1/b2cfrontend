@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const ViewMyCart = () => {
   let user = JSON.parse(sessionStorage.getItem("active-customer"));
-
+   const api_Url = process.env.REACT_APP_API_URL;
   const customer_jwtToken = sessionStorage.getItem("customer-jwtToken");
 
   const [carts, setCarts] = useState([]);
@@ -33,7 +33,7 @@ const ViewMyCart = () => {
 
   const retrieveCart = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/cart/fetch?userId=" + user.id,
+      `${api_Url}/api/cart/fetch?userId=` + user.id,
       {
         headers: {
           Authorization: "Bearer " + customer_jwtToken, // Replace with your actual JWT token
@@ -45,7 +45,7 @@ const ViewMyCart = () => {
 
   const deleteCart = (cartId, e) => {
     const data = { id: cartId, userId: user.id };
-    fetch("http://43.204.61.151:8080/api/cart/delete", {
+    fetch(`${api_Url}/api/cart/delete`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -105,7 +105,7 @@ const ViewMyCart = () => {
 
   const incrementCart = (cart, e) => {
     const data = { id: cart.id, userId: user.id, quantity: cart.quantity + 1 };
-    fetch("http://43.204.61.151:8080/api/cart/update", {
+    fetch(`${api_Url}/api/cart/update`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -165,7 +165,7 @@ const ViewMyCart = () => {
 
   const decrementCart = (cart, e) => {
     const data = { id: cart.id, userId: user.id, quantity: cart.quantity - 1 };
-    fetch("http://43.204.61.151:8080/api/cart/update", {
+    fetch(`${api_Url}/api/cart/update`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -287,7 +287,7 @@ const ViewMyCart = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             cart.product.image1
                           }
                           className="img-fluid"

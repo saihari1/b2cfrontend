@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const ViewSellerOrders = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const [orders, setOrders] = useState([]);
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
@@ -19,7 +20,7 @@ const ViewSellerOrders = () => {
 
   const retrieveAllorders = useCallback(async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/order/fetch/seller-wise?sellerId=" + seller.id,
+      `${api_Url}/api/order/fetch/seller-wise?sellerId=` + seller.id,
       {
         headers: {
           Authorization: "Bearer " + seller_jwtToken,
@@ -27,12 +28,13 @@ const ViewSellerOrders = () => {
       }
     );
     return response.data;
+     // eslint-disable-next-line
   }, [seller.id, seller_jwtToken]);
 
   useEffect(() => {
     const retrieveOrdersById = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch?orderId=" + orderId
+        `${api_Url}/api/order/fetch?orderId=` + orderId
       );
       console.log(response.data);
       return response.data;
@@ -53,7 +55,7 @@ const ViewSellerOrders = () => {
 
     const getAllUsers = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/user/fetch/seller/delivery-person?sellerId=" +
+        `${api_Url}/api/user/fetch/seller/delivery-person?sellerId=` +
           seller.id,
         {
           headers: {
@@ -66,6 +68,7 @@ const ViewSellerOrders = () => {
 
     getAllOrders();
     getAllUsers();
+     // eslint-disable-next-line
   }, [orderId, retrieveAllorders, seller.id, seller_jwtToken]);
 
   const formatDateFromEpoch = (epochTime) => {
@@ -86,7 +89,7 @@ const ViewSellerOrders = () => {
   const assignToDelivery = (orderId, e) => {
     let data = { orderId: assignOrderId, deliveryId: deliveryPersonId };
 
-    fetch("http://43.204.61.151:8080/api/order/assign/delivery-person", {
+    fetch(`${api_Url}/api/order/assign/delivery-person`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -211,7 +214,7 @@ const ViewSellerOrders = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             order.product.image1
                           }
                           className="img-fluid"

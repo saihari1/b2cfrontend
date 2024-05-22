@@ -4,7 +4,7 @@ import React from "react";
 
 const ViewAllProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
-
+  const api_Url = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getAllProducts = async () => {
       const allProducts = await retrieveAllProducts();
@@ -12,13 +12,13 @@ const ViewAllProducts = () => {
         setAllProducts(allProducts.products);
       }
     };
-
     getAllProducts();
+    // eslint-disable-next-line
   }, []);
 
   const retrieveAllProducts = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/product/fetch/all"
+      `${api_Url}/api/product/fetch/all`
     );
     console.log(response.data);
     return response.data;
@@ -67,7 +67,7 @@ const ViewAllProducts = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             product.image1
                           }
                           class="img-fluid"

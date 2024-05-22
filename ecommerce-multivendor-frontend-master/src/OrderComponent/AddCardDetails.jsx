@@ -6,6 +6,7 @@ import PaymentMode from "../PaymentComponent/PaymentMode";
 import Upi from "../PaymentComponent/Upi";
 
 const AddCardDetails = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("active-customer"));
@@ -83,7 +84,7 @@ const AddCardDetails = () => {
       return;
     }
 
-    fetch("http://43.204.61.151:8080/api/order/add?userId=" + user.id, {
+    fetch(`${api_Url}/api/order/add?userId=` + user.id, {
       method: "POST",
       headers: {
         Accept: "application/json",

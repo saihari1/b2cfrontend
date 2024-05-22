@@ -4,7 +4,7 @@ import React from "react";
 
 const ViewMyOrders = () => {
   let user = JSON.parse(sessionStorage.getItem("active-customer"));
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const [orders, setOrders] = useState([]);
 
   const customer_jwtToken = sessionStorage.getItem("customer-jwtToken");
@@ -12,7 +12,7 @@ const ViewMyOrders = () => {
   useEffect(() => {
     const retrieveCart = async () => {
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/order/fetch/user-wise?userId=" + user.id,
+        `${api_Url}/api/order/fetch/user-wise?userId=` + user.id,
         {
           headers: {
             Authorization: "Bearer " + customer_jwtToken,
@@ -30,7 +30,8 @@ const ViewMyOrders = () => {
     };
 
     getAllOrders();
-  }, [user.id, customer_jwtToken]);
+
+  }, [user.id, customer_jwtToken,api_Url]);
 
   const formatDateFromEpoch = (epochTime) => {
     const date = new Date(Number(epochTime));
@@ -90,7 +91,7 @@ const ViewMyOrders = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             order.product.image1
                           }
                           className="img-fluid"

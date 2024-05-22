@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const UserRegister = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
@@ -21,15 +22,15 @@ const UserRegister = () => {
   });
     
   useEffect(() => {
-    if (document.URL.indexOf("customer") !== -1) {
-      setUser({ ...user, role: "Customer" });
-    } else if (document.URL.indexOf("delivery") !== -1) {
-      setUser({ ...user, role: "Delivery" });
-    } else if (document.URL.indexOf("seller") !== -1) {
-      setUser({ ...user, role: "Seller" });
+    const url = document.URL;
+    if (url.indexOf('customer') !== -1) {
+      setUser((prevUser) => ({ ...prevUser, role: 'Customer' }));
+    } else if (url.indexOf('delivery') !== -1) {
+      setUser((prevUser) => ({ ...prevUser, role: 'Delivery' }));
+    } else if (url.indexOf('seller') !== -1) {
+      setUser((prevUser) => ({ ...prevUser, role: 'Seller' }));
     }
-    // eslint-disable-next-line
-  }, [user]);
+  }, []);
 
   const handleUserInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -42,7 +43,7 @@ const UserRegister = () => {
       user.sellerId = seller.id;
     }
 
-    fetch("http://43.204.61.151:8080/api/user/register", {
+    fetch(`${api_Url}/api/user/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",

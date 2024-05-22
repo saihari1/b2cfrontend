@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ViewSellerProducts = () => {
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
   const [allProducts, setAllProducts] = useState([]);
@@ -27,7 +27,7 @@ const ViewSellerProducts = () => {
   const retrieveAllProducts = async () => {
     if (seller) { // Check if seller object exists
       const response = await axios.get(
-        "http://43.204.61.151:8080/api/product/fetch/seller-wise?sellerId=" +
+        `${api_Url}/api/product/fetch/seller-wise?sellerId=` +
         seller.id
       );
       return response.data;
@@ -38,7 +38,7 @@ const ViewSellerProducts = () => {
 
   const deleteProduct = (productId, e) => {
     fetch(
-      "http://43.204.61.151:8080/api/product/delete?productId=" +
+      `${api_Url}/api/product/delete?productId=` +
       productId +
       "&sellerId=" +
       seller.id,
@@ -155,7 +155,7 @@ const ViewSellerProducts = () => {
                       <td>
                         <img
                           src={
-                            "http://43.204.61.151:8080/api/product/" +
+                            `${api_Url}/api/product/` +
                             product.image1
                           }
                           class="img-fluid"

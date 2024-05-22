@@ -4,6 +4,8 @@ import React from "react";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const ViewAllSellers = () => {
+  const api_Url = process.env.REACT_APP_API_URL;
+
   const [allSeller, setAllSeller] = useState([]);
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
@@ -22,7 +24,7 @@ console.log(seller);
 
   const retrieveAllUser = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/user/fetch/role-wise?role=Seller",
+      `${api_Url}/api/user/fetch/role-wise?role=Seller`,
       {
         headers: {
           Authorization: "Bearer " + admin_jwtToken, // Replace with your actual JWT token
@@ -34,7 +36,7 @@ console.log(seller);
   };
 
   const deleteSeller = (userId, e) => {
-    fetch("http://43.204.61.151:8080/api/user/delete/seller?sellerId=" + userId, {
+    fetch(`${api_Url}/api/user/delete/seller?sellerId=` + userId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

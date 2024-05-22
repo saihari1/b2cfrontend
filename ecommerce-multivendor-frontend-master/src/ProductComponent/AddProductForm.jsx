@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddProductForm = () => {
   const [categories, setCategories] = useState([]);
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const seller = JSON.parse(sessionStorage.getItem("active-seller"));
   const seller_jwtToken = sessionStorage.getItem("seller-jwtToken");
 
@@ -13,7 +13,7 @@ const AddProductForm = () => {
 
   const retrieveAllCategories = async () => {
     const response = await axios.get(
-      "http://43.204.61.151:8080/api/category/fetch/all"
+      `${api_Url}/api/category/fetch/all`
     );
     return response.data;
   };
@@ -27,6 +27,7 @@ const AddProductForm = () => {
     };
 
     getAllCategories();
+     // eslint-disable-next-line
   }, []);
 
   const [selectedImage1, setSelectImage1] = useState(null);
@@ -74,7 +75,7 @@ const AddProductForm = () => {
     formData.append("sellerId", seller.id);
 
     axios
-      .post("http://43.204.61.151:8080/api/product/add", formData, {
+      .post(`${api_Url}/api/product/add`, formData, {
         headers: {
           Authorization: "Bearer " + seller_jwtToken, // Replace with your actual JWT token
         },

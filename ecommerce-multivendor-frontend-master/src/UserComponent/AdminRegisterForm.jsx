@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AdminRegisterForm = () => {
   let navigate = useNavigate();
-
+  const api_Url = process.env.REACT_APP_API_URL;
   const admin_jwtToken = sessionStorage.getItem("admin-jwtToken");
 
   const [registerRequest, setRegisterRequest] = useState({});
@@ -15,7 +15,7 @@ const AdminRegisterForm = () => {
   };
 
   const registerAdmin = (e) => {
-    fetch("http://43.204.61.151:8080/api/user/admin/register", {
+    fetch(`${api_Url}/api/user/admin/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",
