@@ -14,7 +14,11 @@ const UserLoginForm = () => {
   };
 
   const loginAction = (e) => {
+<<<<<<< HEAD
     fetch(`${api_Url}/api/user/login`, {
+=======
+    fetch("http://15.207.180.250:8081/api/user/login", {
+>>>>>>> fdabb5719040a980b566df26fc2248200ec92a7e
       method: "POST",
       headers: {
         Accept: "application/json",
